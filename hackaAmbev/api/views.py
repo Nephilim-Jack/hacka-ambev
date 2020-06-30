@@ -5,6 +5,7 @@ from django.http import (
     HttpResponse, JsonResponse,
 )
 from django.utils.crypto import get_random_string
+from django.contrib.auth.hashers import check_password
 from .models import (
     Place, Drink,
     User, Group,
@@ -87,6 +88,29 @@ class UserView(View):
 
         user.save()
         return HttpResponse(status=201)
+
+    def get(self, request):
+        receivedData = json.loads(request.body.decode('utf-8'))
+
+        if receivedData['mode'] == 'login':
+            username = receivedData['username']
+            password = receivedData['password']
+
+            for user in User.objects.filter(username__exact=username):
+                if check_password(password, user.password):
+                    user = json.loads(serializers.serialize('json', [user, ]))
+                    # serialize
+                    user = user[0]
+                    userDict = {'pk': user['pk']}
+                    for key, val in user.items():
+                        if key == 'fields':
+                            for fieldKey, fieldValue in val.items():
+                                if fieldKey != 'password':
+                                    userDict[fieldKey] = fieldValue
+
+                    return JsonResponse(userDict)
+
+            return HttpResponse(status=401)
 
 
 class DrinksView(View):

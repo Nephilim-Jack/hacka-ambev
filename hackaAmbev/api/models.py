@@ -48,6 +48,8 @@ class User(models.Model):
 
     password = models.CharField(max_length=1024)
 
+    # TODO Balance, AmbevPoints
+
     def save(self, *args, **kwargs):
         self.password = make_password(self.password)
         super(User, self).save(*args, **kwargs)
