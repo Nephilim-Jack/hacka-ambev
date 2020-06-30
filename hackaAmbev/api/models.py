@@ -5,7 +5,7 @@ from django.contrib.auth.hashers import make_password
 
 
 class Place(models.Model):
-    placeName = models.CharField(max_length=256)
+    name = models.CharField(max_length=256)
 
     lat = models.FloatField()
     lng = models.FloatField()
@@ -13,20 +13,30 @@ class Place(models.Model):
     placeUf = models.CharField(max_length=256)
     placeCity = models.CharField(max_length=256)
 
-    availableDrinks = models.ManyToManyField('api.Drink')
+    contact = models.CharField(max_length=256)
+    description = models.CharField(max_length=512)
+
+    hasMusic = models.BooleanField(default=False)
+    hasKidSpace = models.BooleanField(default=False)
+    hasWifi = models.BooleanField(default=False)
+    hasAccessibility = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.placeName
+        return self.name
 
 
 class Drink(models.Model):
     drinkName = models.CharField(max_length=256)
 
-    quantity = models.IntegerField(default=0)
+    realQuantity = models.IntegerField(default=0)
+    digitalQuantity = models.IntegerField(default=0)
     foundPlace = models.ForeignKey('api.Place', on_delete=models.DO_NOTHING)
 
+    imageUrl = models.CharField(max_length=1024)
+
     def __str__(self):
-        return self.drinkName
+        string = f'{self.digitalQuantity}/{self.realQuantity}'
+        return f'{self.drinkName}({string}) - {self.foundPlace.name}'
 
 
 class User(models.Model):
@@ -54,3 +64,16 @@ class Group(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Transaction(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    place = models.ForeignKey(Place, on_delete=models.DO_NOTHING)
+    drink = models.ForeignKey(Drink, on_delete=models.DO_NOTHING)
+
+    quantity = models.IntegerField(default=0)
+    token = models.CharField(default='AUTO', max_length=128)
+    finished = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.user.username} - {self.place.name} > {self.drink.drinkName}'
