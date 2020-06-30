@@ -4,6 +4,7 @@ from django.views import View
 from django.http import (
     HttpResponse, JsonResponse,
 )
+from django.utils.crypto import get_random_string
 from .models import (
     Place, Drink,
     User, Group,
@@ -111,21 +112,26 @@ class DrinksView(View):
         except Exception:
             receivedData = None
 
-        drinkPk = receivedData['drinkPk']
-        place = Drink.objects.get(pk=drinkPk).foundPlace
-        trans = Transaction(
-            user=User.objects.get(pk=receivedData['userPk']),
-            place=place,
-            drink=Drink.objects.get(pk=drinkPk),
-            quantity=receivedData['quantity'],
-            token=receivedData['token']
-        )
-        trans.save()
-        drink = Drink.objects.get(pk=drinkPk)
-        drink.digitalQuantity -= receivedData['quantity']
-        drink.save()
+        token = get_random_string(128)
+        for drink in receivedData['drinks']:
+            drinkPk = drink['drinkPk']
+            quantity = drink['quantity']
 
-        return HttpResponse()
+            place = Drink.objects.get(pk=drinkPk).foundPlace
+            trans = Transaction(
+                user=User.objects.get(pk=receivedData['userPk']),
+                place=place,
+                drink=Drink.objects.get(pk=drinkPk),
+                quantity=quantity,
+                token=token
+            )
+            trans.save()
+
+            drink = Drink.objects.get(pk=drinkPk)
+            drink.digitalQuantity -= quantity
+            drink.save()
+
+        return HttpResponse(token)
 
 
 class TransactionView(View):
