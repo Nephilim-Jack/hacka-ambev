@@ -83,7 +83,8 @@ class UserView(View):
             username=receivedData['username'],
             userUf=receivedData['uf'],
             userCity=receivedData['city'],
-            password=receivedData['password']
+            password=receivedData['password'],
+            userImage=receivedData['image']
         )
 
         user.save()

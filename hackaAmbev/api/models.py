@@ -47,8 +47,10 @@ class User(models.Model):
     userCity = models.CharField(max_length=256)
 
     password = models.CharField(max_length=1024)
+    userImage = models.CharField(max_length=1024)
 
-    # TODO Balance, AmbevPoints
+    accountBalance = models.FloatField(default=0)
+    ambevPoints = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         self.password = make_password(self.password)
