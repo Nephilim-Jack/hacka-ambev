@@ -23,5 +23,7 @@ export class IBGEApi {
 }
 
 export class HackaApi {
-
+    api = axios.create({
+        baseURL: 'https://hack-ambev-api.herokuapp.com/api'
+    })
 }
