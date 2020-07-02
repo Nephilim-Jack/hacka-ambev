@@ -55,6 +55,17 @@ class PlaceView(View):
                         for fieldKey, fieldValue in val.items():
                             if fieldKey != 'password':
                                 placeDict[fieldKey] = fieldValue
+                
+                placeDrinks = json.loads(serializers.serialize(
+                    'json',
+                    Drink.objects.filter(foundPlace__pk=placePk)
+                ))
+                tempDict['drinks'] = list()
+                for drink in placeDrinks:
+                    drinkDict = {'pk': drink['pk']}
+                    for drinkKey, drinkValue in drink['fields'].items():
+                        if drinkKey != 'foundPlace':
+                            drinkDict[drinkKey] = drinkValue
 
                 return JsonResponse(placeDict)
 
