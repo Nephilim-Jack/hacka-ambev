@@ -60,12 +60,14 @@ class PlaceView(View):
                     'json',
                     Drink.objects.filter(foundPlace__pk=placePk)
                 ))
-                tempDict['drinks'] = list()
+                placeDict['drinks'] = list()
                 for drink in placeDrinks:
                     drinkDict = {'pk': drink['pk']}
                     for drinkKey, drinkValue in drink['fields'].items():
                         if drinkKey != 'foundPlace':
                             drinkDict[drinkKey] = drinkValue
+                    
+                    placeDict['drinks'].append(drinkDict)
 
                 return JsonResponse(placeDict)
 
