@@ -1,2 +1,117 @@
 # hacka-ambev
 Ambev hackathon main repository
+
+
+## Endpoints Table
+
+Q-ID = Query ID; Example: "place/1", "user/1"
+* Main Url: https://hack-ambev-api.herokuapp.com/
+<table>
+<thead>
+	<tr>
+	<th>Endpoint</th>
+	<th>Method</th>
+	<th>Accept</th>
+	<th>Return</th>
+	<th>Slug</th>
+	</tr>
+</thead>
+<tbody><tr>
+<td>api/user</td>
+<td>GET</td>
+<td>JSON</td>
+<td>JSON</td>
+<td>login</td>
+</tr>
+<tr>
+<td>api/user</td>
+<td>GET</td>
+<td>Q-ID</td>
+<td>JSON</td>
+<td>detail</td>
+</tr>
+<tr>
+<td>api/user</td>
+<td>POST</td>
+<td>JSON</td>
+<td>NONE</td>
+<td>create</td>
+</tr>
+<tr>
+<td>api/place</td>
+<td>GET</td>
+<td>NONE</td>
+<td>JSON</td>
+<td>list</td>
+</tr>
+<tr>
+<td>api/place</td>
+<td>GET</td>
+<td>Q-ID</td>
+<td>JSON</td>
+<td>detail</td>
+</tr>
+<tr>
+<td>api/place</td>
+<td>POST</td>
+<td>JSON</td>
+<td>NONE</td>
+<td>create</td>
+</tr>
+<tr>
+<td>api/drinks</td>
+<td>GET</td>
+<td>Q-ID</td>
+<td>JSON</td>
+<td>listPlaceDrinks</td>
+</tr>
+<tr>
+<td>api/drinks</td>
+<td>GET</td>
+<td>JSON</td>
+<td>HASH</td>
+<td>buy</td>
+</tr>
+<tr>
+<td>api/drinks</td>
+<td>POST</td>
+<td>JSON</td>
+<td>NONE</td>
+<td>add</td>
+</tr>
+<tr>
+<td>api/group</td>
+<td>GET</td>
+<td>Q-ID</td>
+<td>JSON</td>
+<td>listUsersOfGroup</td>
+</tr>
+<tr>
+<td>api/group</td>
+<td>POST</td>
+<td>JSON</td>
+<td>NONE</td>
+<td>createMode</td>
+</tr>
+<tr>
+<td>api/group</td>
+<td>POST</td>
+<td>JSON</td>
+<td>NONE</td>
+<td>addUserMode</td>
+</tr>
+<tr>
+<td>api/group</td>
+<td>DEL</td>
+<td>JSON</td>
+<td>NONE</td>
+<td>removeUser</td>
+</tr>
+<tr>
+<td>api/trans</td>
+<td>POST</td>
+<td>JSON</td>
+<td>NONE</td>
+<td>verifyToken</td>
+</tr>
+</tbody></table>
