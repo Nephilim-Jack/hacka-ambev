@@ -147,7 +147,10 @@ export class HackaApi {
                 userImage: response.data.userImage,
                 accountBalance: response.data.accountBalance,
                 ambevPoints: response.data.ambevPoints,
+                error: 'none'
             }
+        }).catch(error => {
+            return { error: 'unauthorized' }
         })
     }
 
