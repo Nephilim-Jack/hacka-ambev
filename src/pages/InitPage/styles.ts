@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 export const LogoName = styled.Text`
     font-size: 38px;
     font-weight: bold;
-
+    color: white;
     top: 20%;
 `
 
@@ -17,7 +17,7 @@ export const Container = styled.View`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 120px;
+    height: 136px;
 `
 export const DataInputs = styled.TextInput`
     text-align: center;
@@ -27,4 +27,15 @@ export const DataInputs = styled.TextInput`
     height: 48px;
     width: 320px;
     color: #222;
+`
+
+export const RegisterText = styled.Text`
+    text-align: right;
+    color: white;
+    font-size: 12px;
+`
+
+export const RegisterLink = styled(RegisterText)`
+    color: #2e89ff;
+    font-weight: bold;
 `
