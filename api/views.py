@@ -156,7 +156,7 @@ class DrinksView(View):
 
             place = Drink.objects.get(pk=drinkPk).foundPlace
             trans = Transaction(
-                user=User.objects.get(pk=request.headers['userPk']),
+                user=User.objects.get(pk=int(request.headers['userPk'])),
                 place=place,
                 drink=Drink.objects.get(pk=drinkPk),
                 quantity=quantity,
