@@ -5,7 +5,7 @@ from django.http import (
     HttpResponse, JsonResponse,
 )
 from django.utils.crypto import get_random_string
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import make_password, check_password
 from .models import (
     Place, Drink,
     User, Group,
@@ -16,42 +16,47 @@ from .models import (
 
 
 class PlaceView(View):
-    def get(self, request):
-        try:
-            receivedData = json.loads(request.body.decode('utf-8'))
-        except json.JSONDecodeError:
-            receivedData = None
-
-        if receivedData:
-            # Filter Settings
-            pass
-        else:
+    def get(self, request, placePk=None):
+        if placePk is None:
             placesList = serializers.serialize('json', Place.objects.all())
+            returnList = list()
+            for place in json.loads(placesList):
+                tempDict = {'pk': place['pk']}
 
-        returnList = list()
-        for place in json.loads(placesList):
-            tempDict = {'pk': place['pk']}
+                for fieldKey, fieldValue in place['fields'].items():
+                    tempDict[fieldKey] = fieldValue
 
-            for fieldKey, fieldValue in place['fields'].items():
-                tempDict[fieldKey] = fieldValue
+                # Setting drinks in place
+                placeDrinks = json.loads(serializers.serialize(
+                    'json',
+                    Drink.objects.filter(foundPlace__pk=place['pk'])
+                ))
+                tempDict['drinks'] = list()
+                for drink in placeDrinks:
+                    drinkDict = {'pk': drink['pk']}
+                    for drinkKey, drinkValue in drink['fields'].items():
+                        if drinkKey != 'foundPlace':
+                            drinkDict[drinkKey] = drinkValue
 
-            # Setting drinks in place
-            placeDrinks = json.loads(serializers.serialize(
-                'json',
-                Drink.objects.filter(foundPlace__pk=place['pk'])
-            ))
-            tempDict['drinks'] = list()
-            for drink in placeDrinks:
-                drinkDict = {'pk': drink['pk']}
-                for drinkKey, drinkValue in drink['fields'].items():
-                    if drinkKey != 'foundPlace':
-                        drinkDict[drinkKey] = drinkValue
+                    tempDict['drinks'].append(drinkDict)
 
-                tempDict['drinks'].append(drinkDict)
+                returnList.append(tempDict)
 
-            returnList.append(tempDict)
+            return JsonResponse(returnList, safe=False)
+        else:
+            if placePk != None:
+                place = Place.objects.get(pk=placePk)
+                place = json.loads(serializers.serialize('json', [place, ]))
+                # serialize
+                place = place[0]
+                placeDict = {'pk': place['pk']}
+                for key, val in place.items():
+                    if key == 'fields':
+                        for fieldKey, fieldValue in val.items():
+                            if fieldKey != 'password':
+                                placeDict[fieldKey] = fieldValue
 
-        return JsonResponse(returnList, safe=False)
+                return JsonResponse(placeDict)
 
     def post(self, request):
         receivedData = json.loads(request.body.decode('utf-8'))
@@ -83,7 +88,7 @@ class UserView(View):
             username=receivedData['username'],
             userUf=receivedData['uf'],
             userCity=receivedData['city'],
-            password=receivedData['password'],
+            password=make_password(receivedData['password']),
             userImage=receivedData['image']
         )
 
@@ -96,7 +101,6 @@ class UserView(View):
         if receivedData['mode'] == 'login':
             username = receivedData['username']
             password = receivedData['password']
-
             for user in User.objects.filter(username__exact=username):
                 if check_password(password, user.password):
                     user = json.loads(serializers.serialize('json', [user, ]))
@@ -179,6 +183,19 @@ class TransactionView(View):
 
 
 class GroupView(View):
+    def get(self, request, groupPk):
+        if groupPk != None:
+            group = Group.objects.get(pk=groupPk)
+            usersList = list()
+            for user in group.users.all():
+                usersList.append({
+                    'pk': user.pk,
+                    'username': user.username,
+                    'imageUrl': user.userImage
+                })
+
+            return JsonResponse(usersList, safe=False)
+
     def post(self, request):
         try:
             receivedData = json.loads(request.body.decode('utf-8'))

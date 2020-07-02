@@ -7,10 +7,12 @@ from .views import (
 )
 
 urlpatterns = [
+    path('place/<int:placePk>', csrf_exempt(PlaceView.as_view())),
     path('place', csrf_exempt(PlaceView.as_view())),
     path('user', csrf_exempt(UserView.as_view())),
     path('drinks', csrf_exempt(DrinksView.as_view())),
     path('drinks/<int:placePk>', csrf_exempt(DrinksView.as_view())),
     path('trans', csrf_exempt(TransactionView.as_view())),
+    path('group/<int:groupPk>', csrf_exempt(GroupView.as_view())),
     path('group', csrf_exempt(GroupView.as_view()))
 ]
