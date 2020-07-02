@@ -149,6 +149,7 @@ class DrinksView(View):
         # If theres is no placePk, reduce quantity of one drink
 
         drinks = json.loads(request.headers['drinks'])
+        userPk = int(request.headers['userPk'])
         token = get_random_string(128)
         for drink in drinks:
             drinkPk = drink['drinkPk']
@@ -156,7 +157,7 @@ class DrinksView(View):
 
             place = Drink.objects.get(pk=drinkPk).foundPlace
             trans = Transaction(
-                user=User.objects.get(pk=int(request.headers['userPk'])),
+                user=User.objects.get(pk=userPk),
                 place=place,
                 drink=Drink.objects.get(pk=drinkPk),
                 quantity=quantity,
@@ -223,13 +224,10 @@ class GroupView(View):
             return HttpResponse(status=201)
 
     def delete(self, request):
-        try:
-            receivedData = json.loads(request.body.decode('utf-8'))
-        except Exception:
-            receivedData = None
-
-        group = Group.objects.get(pk=receivedData['groupPk'])
-        for user in User.objects.filter(pk__in=receivedData['users']):
+        
+        users = json.loads(request.headers['users'])
+        group = Group.objects.get(pk=int(request.headers['groupPk']))
+        for user in User.objects.filter(pk__in=users):
             group.users.remove(user.pk)
 
         group.save()
