@@ -96,11 +96,9 @@ class UserView(View):
         return HttpResponse(status=201)
 
     def get(self, request):
-        receivedData = json.loads(request.body.decode('utf-8'))
-
-        if receivedData['mode'] == 'login':
-            username = receivedData['username']
-            password = receivedData['password']
+        if request.headers['mode'] == 'login':
+            username = request.headers['username']
+            password = request.headers['password']
             for user in User.objects.filter(username__exact=username):
                 if check_password(password, user.password):
                     user = json.loads(serializers.serialize('json', [user, ]))
@@ -136,19 +134,16 @@ class DrinksView(View):
             return JsonResponse(drinkList, safe=False)
 
         # If theres is no placePk, reduce quantity of one drink
-        try:
-            receivedData = json.loads(request.body.decode('utf-8'))
-        except Exception:
-            receivedData = None
 
+        drinks = request.headers['drinks']
         token = get_random_string(128)
-        for drink in receivedData['drinks']:
+        for drink in drinks:
             drinkPk = drink['drinkPk']
             quantity = drink['quantity']
 
             place = Drink.objects.get(pk=drinkPk).foundPlace
             trans = Transaction(
-                user=User.objects.get(pk=receivedData['userPk']),
+                user=User.objects.get(pk=request.headers['userPk']),
                 place=place,
                 drink=Drink.objects.get(pk=drinkPk),
                 quantity=quantity,
@@ -165,12 +160,8 @@ class DrinksView(View):
 
 class TransactionView(View):
     def get(self, request):
-        try:
-            receivedData = json.loads(request.body.decode('utf-8'))
-        except Exception:
-            receivedData = None
+        token = request.headers['token']
 
-        token = receivedData['token']
         for trans in Transaction.objects.filter(token__exact=token):
             trans.finished = True
             trans.save()
