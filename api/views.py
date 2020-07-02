@@ -148,7 +148,7 @@ class DrinksView(View):
 
         # If theres is no placePk, reduce quantity of one drink
 
-        drinks = request.headers['drinks']
+        drinks = json.loads(request.headers['drinks'])
         token = get_random_string(128)
         for drink in drinks:
             drinkPk = drink['drinkPk']
