@@ -25,13 +25,6 @@ Q-ID = Query ID; Example: "place/1", "user/1"
 </tr>
 <tr>
 <td>api/user</td>
-<td>GET</td>
-<td>Q-ID</td>
-<td>JSON</td>
-<td>detail</td>
-</tr>
-<tr>
-<td>api/user</td>
 <td>POST</td>
 <td>JSON</td>
 <td>NONE</td>
