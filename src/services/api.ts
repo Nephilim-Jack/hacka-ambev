@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useReducer } from 'react'
 
 interface IBGEUFsResponse {
     name: string
@@ -7,6 +8,32 @@ interface IBGEUFsResponse {
 interface IBGECitiesResponse {
     name: string
 }
+
+interface createUserRequest {
+    name: string,
+    username: string,
+    password: string,
+    uf: string,
+    city: string,
+    image: string
+}
+
+interface loginUserRequest {
+    username: string,
+    password: string
+}
+
+interface loginUserResponse {
+    pk: number,
+    name: string,
+    username: string,
+    userUf: string,
+    userCity: string,
+    userImage: string,
+    accountBalance: number,
+    ambevPoints: number
+}
+
 export class IBGEApi {
     getUfs = async () => {
         const response = await axios.get<IBGEUFsResponse[]>('https://servicodados.ibge.gov.br/api/v1/localidades/distritos')
@@ -26,4 +53,21 @@ export class HackaApi {
     api = axios.create({
         baseURL: 'https://hack-ambev-api.herokuapp.com/api'
     })
+
+    createUser = async (data: createUserRequest) => {
+        return this.api.post('user', {
+            name: data.name,
+            username: data.username,
+            password: data.password,
+            uf: data.uf,
+            city: data.city,
+            image: data.image
+        }).then(response => {
+            return response.status
+        })
+    }
+
+    loginUser = async (data: loginUserRequest) => {
+        this.api.get('user')
+    }
 }
