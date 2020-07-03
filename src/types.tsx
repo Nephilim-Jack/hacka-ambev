@@ -4,9 +4,9 @@ import { StackNavigationProp } from '@react-navigation/stack';
 type RootStackParamList = {
     InitPage: undefined;
     RegisterPage: undefined;
-    PlacesList: undefined;
-    PlaceList: { placePk: string };
-    UserDetail: { userPk: string };
+    PlacesList: { userDetail: object };
+    PlaceDetail: { placeDetail: object };
+    UserDetail: { userDetail: object };
 };
 
 type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'UserDetail'>;

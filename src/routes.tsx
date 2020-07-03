@@ -16,7 +16,7 @@ export const Routes = () => {
             <Stack.Navigator screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="InitPage" component={InitPage} />
                 <Stack.Screen name="PlaceDetail" component={PlaceDetail} />
-                <Stack.Screen name="ListPlaces" component={PlacesList} />
+                <Stack.Screen name="PlacesList" component={PlacesList} />
                 <Stack.Screen name="RegisterPage" component={RegisterPage} />
                 <Stack.Screen name="UserDetail" component={UserDetail} />
             </Stack.Navigator>

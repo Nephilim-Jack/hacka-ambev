@@ -67,10 +67,48 @@ export const Place = styled.TouchableOpacity`
     background-color: #21409a;
     border-radius: 15px;
     width: 80%;
-    height: 100px;
+    height: 132px;
+    display: flex;
+    justify-content: space-around;
+`
+export const PlaceName = styled.Text`
+    color: white;
+    font-size: 32px;
+    margin-top: 8px;
+    margin-left: 16px;
+`
+
+export const PlaceBottomContainer = styled.View`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`
+
+export const PlaceIconsContainer = styled.View`
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    margin-left: 8px;
+    width: 80px;
+`
+
+export const PlaceContact = styled.Text`
+    color: white;
+    margin-bottom: 8px;
+    margin-right: 8px;
+`
+
+export const PlaceRegion = styled.Text`
+    color: white;
+    margin-left: 53%;
+    margin-right: 8px;
+`
+
+export const PlaceShortDescription = styled.Text`
+    color: #dee2e6;
+    margin-left: 16px;
+    font-size: 16px;
+    margin-top: 8px;
 `
 
 export const SideBar = styled.View`

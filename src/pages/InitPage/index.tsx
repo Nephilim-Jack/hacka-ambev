@@ -18,7 +18,7 @@ export default class InitPage extends Component<Props> {
     }
 
     handlePasswordText = (text: string) => {
-        this.password = this.password
+        this.password = text
     }
 
     handleLogin = async () => {
@@ -39,7 +39,7 @@ export default class InitPage extends Component<Props> {
                 ]
             )
         } else {
-            this.props.navigation.navigate('PlacesList')
+            this.props.navigation.navigate('PlacesList', { userDetail: status })
         }
     }
 
@@ -56,12 +56,12 @@ export default class InitPage extends Component<Props> {
                 <LogoName>Nome do App</LogoName>
                 <Container>
                     <DataInputs
-                        placeholder='login'
+                        placeholder='Nome de Usuário'
                         onChangeText={text => this.handleLoginText(text)}
                     />
 
                     <DataInputs
-                        placeholder='password'
+                        placeholder='Senha'
                         onChangeText={text => this.handlePasswordText(text)}
                         onSubmitEditing={this.handleLogin}
                         secureTextEntry

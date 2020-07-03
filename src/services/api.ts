@@ -2,11 +2,12 @@ import axios from 'axios'
 import { useReducer } from 'react'
 
 interface IBGEUFsResponse {
-    name: string
+    sigla: string,
+    nome: string
 }
 
 interface IBGECitiesResponse {
-    name: string
+    nome: string
 }
 
 interface createUserRequest {
@@ -48,7 +49,7 @@ interface createPlaceRequest {
     access: boolean
 }
 
-interface getPlaceResponse {
+export interface getPlaceResponse {
     pk: number,
     name: string,
     lat: number,
@@ -99,15 +100,16 @@ interface groupUsersResponse {
 
 export class IBGEApi {
     getUfs = async () => {
-        const response = await axios.get<IBGEUFsResponse[]>('https://servicodados.ibge.gov.br/api/v1/localidades/distritos')
-        const ufInitials = response.data.map(uf => uf.name)
-        return ufInitials
+        return axios.get<IBGEUFsResponse[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados').then(response => {
+            return response.data.map(uf => {
+                return { nome: uf.nome, sigla: uf.sigla }
+            })
+        })
     }
 
     getCities = async (uf: string) => {
         return axios.get<IBGECitiesResponse[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`).then(response => {
-            const citiesNames = response.data.map(city => city.name)
-            return citiesNames
+            return response.data.map(city => city.nome)
         })
     }
 }
