@@ -21,10 +21,16 @@
     },
     "android": {
       "package": "com.team53.mapambev",
-      "versionCode": 1
+      "versionCode": 1,
+      "config": {
+        "googleMaps": {
+          "apiKey": "{apiKeyHere}"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }
