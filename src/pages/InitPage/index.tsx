@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-native'
+import { Alert, Image } from 'react-native'
 import { Props } from '../../types'
 import { HackaApi } from '../../services/api'
 import {
     Container, DataInputs,
-    Background, LogoName,
+    Background, Logo,
     RegisterText, RegisterLink,
     WhoAreYouContainer, WhoButtom, WhoText
 } from './styles'
@@ -54,7 +54,7 @@ export default class InitPage extends Component<Props> {
     loadContent = () => {
         if (this.state.who === 'none') {
             return (
-                <Container style={{ alignItems: 'center', top: '40%' }}>
+                <Container style={{ alignItems: 'center', top: '20%' }}>
                     <WhoText style={{ fontSize: 32 }}>Você é?</WhoText>
                     <WhoAreYouContainer>
                         <WhoButtom onPress={() => { this.setState({ who: 'user' }) }}>
@@ -97,7 +97,9 @@ export default class InitPage extends Component<Props> {
                 source={require('../../../assets/backImage.jpg')}
                 resizeMode='cover'
             >
-                <LogoName>Nome do App</LogoName>
+                <Logo>
+                    <Image style={{ width: '100%', height: '100%' }} source={require('../../../assets/logo.png')}></Image>
+                </Logo>
                 {this.loadContent()}
             </Background>
         )

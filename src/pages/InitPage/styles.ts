@@ -1,10 +1,9 @@
 import styled from 'styled-components/native'
 
-export const LogoName = styled.Text`
-    font-size: 38px;
-    font-weight: bold;
-    color: white;
-    top: 20%;
+export const Logo = styled.View`
+    top: 10%;
+    width: 320px;
+    height: 320px;
 `
 
 export const Background = styled.ImageBackground`
@@ -13,7 +12,7 @@ export const Background = styled.ImageBackground`
     align-items: center;
 `
 export const Container = styled.View`
-    top: 60%;
+    top: 20%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
