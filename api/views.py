@@ -178,13 +178,14 @@ class TransactionView(View):
 
         ok = False
         for trans in Transaction.objects.filter(token__exact=token):
-            ok = True
-            trans.finished = True
-            trans.save()
+            if trans.finished == False:
+                ok = True
+                trans.finished = True
+                trans.save()
 
-            drink = Drink.objects.get(pk=trans.drink.pk)
-            drink.realQuantity -= trans.quantity
-            drink.save()
+                drink = Drink.objects.get(pk=trans.drink.pk)
+                drink.realQuantity -= trans.quantity
+                drink.save()
         
         if ok:
             return HttpResponse()
