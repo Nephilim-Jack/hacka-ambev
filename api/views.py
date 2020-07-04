@@ -151,25 +151,30 @@ class DrinksView(View):
         drinks = json.loads(request.headers['drinks'])
         userPk = int(request.headers['userPk'])
         token = get_random_string(128)
+        ok = False
         for drink in drinks:
             drinkPk = drink['drinkPk']
             quantity = drink['quantity']
+            if quantity != 0:
+                ok = True
 
-            place = Drink.objects.get(pk=drinkPk).foundPlace
-            trans = Transaction(
-                user=User.objects.get(pk=userPk),
-                place=place,
-                drink=Drink.objects.get(pk=drinkPk),
-                quantity=quantity,
-                token=token
-            )
-            trans.save()
+                place = Drink.objects.get(pk=drinkPk).foundPlace
+                trans = Transaction(
+                    user=User.objects.get(pk=userPk),
+                    place=place,
+                    drink=Drink.objects.get(pk=drinkPk),
+                    quantity=quantity,
+                    token=token
+                )
+                trans.save()
 
-            drink = Drink.objects.get(pk=drinkPk)
-            drink.digitalQuantity -= quantity
-            drink.save()
-
-        return HttpResponse(token)
+                drink = Drink.objects.get(pk=drinkPk)
+                drink.digitalQuantity -= quantity
+                drink.save()
+        if ok == True:
+            return HttpResponse(token)
+        else:
+            return HttpResponse('')
 
 
 class TransactionView(View):
