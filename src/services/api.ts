@@ -71,7 +71,7 @@ export interface getPlaceResponse {
     }[]
 }
 
-interface Drink {
+export interface Drink {
     drinkPk: number,
     quantity: number
 

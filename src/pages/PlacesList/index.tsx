@@ -68,7 +68,7 @@ export default class PlacesList extends Component<Props, PlacesLoaded> {
     }
 
     showPlaceDetail = (place: getPlaceResponse) => {
-        this.props.navigation.navigate('PlaceDetail', { placeDetail: place })
+        this.props.navigation.navigate('PlaceDetail', { placeDetail: place, userPk: this.userDetail.pk })
     }
 
     render() {
