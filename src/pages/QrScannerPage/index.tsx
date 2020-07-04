@@ -26,7 +26,7 @@ export default class QrScanner extends Component<Props> {
                     ToastAndroid.SHORT,
                     ToastAndroid.BOTTOM
                 )
-                setTimeout(() => { this.props.navigation.navigate('InitPage') }, 2000)
+                setTimeout(() => { this.props.navigation.goBack() }, 2000)
             } else {
                 ToastAndroid.showWithGravity('Não foi possível validar o Qr Code, tente novamente!',
                     ToastAndroid.SHORT,

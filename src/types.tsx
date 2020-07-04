@@ -2,7 +2,7 @@ import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 type RootStackParamList = {
-    InitPage: undefined;
+    InitPage: { who: string };
     RegisterPage: undefined;
     PlacesList: { userDetail: object };
     PlaceDetail: { placeDetail: object, userPk: number };
