@@ -176,15 +176,20 @@ class TransactionView(View):
     def get(self, request):
         token = request.headers['token']
 
+        ok = False
         for trans in Transaction.objects.filter(token__exact=token):
+            ok = True
             trans.finished = True
             trans.save()
 
             drink = Drink.objects.get(pk=trans.drink.pk)
             drink.realQuantity -= trans.quantity
             drink.save()
-
-        return HttpResponse()
+        
+        if ok:
+            return HttpResponse()
+        else:
+            return HttpResponse(status=401)
 
 
 class GroupView(View):
