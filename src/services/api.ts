@@ -275,6 +275,8 @@ export class HackaApi {
             headers: { 'token': token }
         }).then(response => {
             return response.status
+        }).catch(error => {
+            return 401
         })
     }
 }

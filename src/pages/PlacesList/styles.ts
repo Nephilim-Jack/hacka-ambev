@@ -135,4 +135,3 @@ export const IconView = styled.TouchableOpacity<IconProps>`
     justify-content: center;
     align-items: center;
 `
-

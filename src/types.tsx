@@ -7,6 +7,7 @@ type RootStackParamList = {
     PlacesList: { userDetail: object };
     PlaceDetail: { placeDetail: object };
     UserDetail: { userDetail: object };
+    QrScannerPage: undefined;
 };
 
 type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'UserDetail'>;
