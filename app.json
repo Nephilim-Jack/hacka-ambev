@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "hackaAmbev",
-    "slug": "hackaAmbev",
+    "name": "MapAmbev",
+    "slug": "map-ambev",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,6 +18,10 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.team53.mapambev",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
